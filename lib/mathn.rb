@@ -68,7 +68,7 @@ class Integer
   remove_method :/
 
   ##
-  # +/+ defines the Rational division for Bignum.
+  # +/+ defines the Rational division for Integer.
   #
   #   (2**72) / ((2**70) * 3)  # => 4/3
 
