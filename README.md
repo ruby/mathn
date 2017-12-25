@@ -6,13 +6,13 @@ mathn serves to make mathematical operations more precise in Ruby and to integra
 
 Without mathn:
 
-```
+```ruby
 3 / 2 => 1 # Integer
 ```
 
 With mathn:
 
-```
+```ruby
 3 / 2 => 3/2 # Rational
 ```
 
@@ -20,13 +20,13 @@ mathn keeps value in exact terms.
 
 Without mathn:
 
-```
+```ruby
 20 / 9 * 3 * 14 / 7 * 3 / 2 # => 18
 ```
 
 With mathn:
 
-```
+```ruby
 20 / 9 * 3 * 14 / 7 * 3 / 2 # => 20
 ```
 
@@ -50,7 +50,7 @@ Or install it yourself as:
 
 ## Usage
 
-```
+```ruby
 require 'mathn'
 ```
 
