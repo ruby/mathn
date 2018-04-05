@@ -32,6 +32,25 @@ With mathn:
 
 When you require 'mathn', the libraries for Prime, CMath, Matrix and Vector are also loaded.
 
+## Deprecation
+
+Requiring `mathn` causes changes to the behavior (and even the types) of
+operations on classes like Integer and it applies to the entire process,
+not just the file or gem which includes `mathn`. Therefore, we recommend
+that instead of requiring `mathn`, you instead explicitly specify rational
+values as desired, for example:
+
+```ruby
+3r / 2 => 3/2 # Rational
+20r / 9 * 3 * 14 / 7 * 3 / 2 # => 20
+```
+
+Before ruby 2.5, `mathn` was part of the ruby standard library. It was
+was [deprecated in ruby 2.2.0](https://github.com/ruby/ruby/blob/v2_2_0/NEWS#stdlib-compatibility-issues-excluding-feature-bug-fixes),
+and [removed from ruby 2.5.0](https://github.com/ruby/ruby/blob/ruby_2_5/NEWS#stdlib-compatibility-issues-excluding-feature-bug-fixes).
+In order to use the library with a current version of ruby,
+you must install it as a gem.
+
 ## Installation
 
 Add this line to your application's Gemfile:
