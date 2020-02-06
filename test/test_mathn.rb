@@ -19,7 +19,7 @@ class TestMathn < Test::Unit::TestCase
   end
 
   def test_floor
-    assert_separately(%w[-rmathn], <<-EOS, ignore_stderr: true)
+    assert_separately(%w[-rbundler/setup -rmathn], <<-EOS, ignore_stderr: true)
       assert_equal( 2, ( 13/5).floor)
       assert_equal( 2, (  5/2).floor)
       assert_equal( 2, ( 12/5).floor)
@@ -44,7 +44,7 @@ class TestMathn < Test::Unit::TestCase
   end
 
   def test_ceil
-    assert_separately(%w[-rmathn], <<-EOS, ignore_stderr: true)
+    assert_separately(%w[-rbundler/setup -rmathn], <<-EOS, ignore_stderr: true)
       assert_equal( 3, ( 13/5).ceil)
       assert_equal( 3, (  5/2).ceil)
       assert_equal( 3, ( 12/5).ceil)
@@ -69,7 +69,7 @@ class TestMathn < Test::Unit::TestCase
   end
 
   def test_truncate
-    assert_separately(%w[-rmathn], <<-EOS, ignore_stderr: true)
+    assert_separately(%w[-rbundler/setup -Ilib -rmathn], <<-EOS, ignore_stderr: true)
       assert_equal( 2, ( 13/5).truncate)
       assert_equal( 2, (  5/2).truncate)
       assert_equal( 2, ( 12/5).truncate)
@@ -94,7 +94,7 @@ class TestMathn < Test::Unit::TestCase
   end
 
   def test_round
-    assert_separately(%w[-rmathn], <<-EOS, ignore_stderr: true)
+    assert_separately(%w[-rbundler/setup -rmathn], <<-EOS, ignore_stderr: true)
       assert_equal( 3, ( 13/5).round)
       assert_equal( 3, (  5/2).round)
       assert_equal( 2, ( 12/5).round)
@@ -182,7 +182,7 @@ class TestMathn < Test::Unit::TestCase
   end
 
   def test_rational
-    assert_separately(%w[-rmathn], "#{<<-"begin;"}\n#{<<-"end;"}", ignore_stderr: true)
+    assert_separately(%w[-rbundler/setup -rmathn], "#{<<-"begin;"}\n#{<<-"end;"}", ignore_stderr: true)
     begin;
       assert_equal(-5, "-5".to_r)
       assert_equal(1, "5/5".to_r)

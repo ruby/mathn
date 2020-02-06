@@ -2,5 +2,6 @@ sudo: false
 language: ruby
 rvm:
   - 2.5
+  - 2.7
   - ruby-head
 before_install: gem install bundler
