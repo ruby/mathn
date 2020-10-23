@@ -5,15 +5,15 @@ require 'test/unit'
 class TestMathn < Test::Unit::TestCase
   def test_power
     stderr = $VERBOSE ? ["lib/mathn.rb is deprecated"] : []
-    assert_in_out_err ['-Ilib', '-r', 'mathn', '-e', 'a=1**2;!a'], "", [], stderr, '[ruby-core:25740]'
-    assert_in_out_err ['-Ilib', '-r', 'mathn', '-e', 'a=(1 << 126)**2;!a'], "", [], stderr, '[ruby-core:25740]'
-    assert_in_out_err ['-Ilib', '-r', 'mathn/complex', '-e', 'a=Complex(0,1)**4;!a'], "", [], [], '[ruby-core:44170]'
-    assert_in_out_err ['-Ilib', '-r', 'mathn/complex', '-e', 'a=Complex(0,1)**5;!a'], "", [], [], '[ruby-core:44170]'
+    assert_in_out_err ['-Ilib', '-rbundler/setup', '-rmathn', '-e', 'a=1**2;!a'], "", [], stderr, '[ruby-core:25740]'
+    assert_in_out_err ['-Ilib', '-rbundler/setup', '-rmathn', '-e', 'a=(1 << 126)**2;!a'], "", [], stderr, '[ruby-core:25740]'
+    assert_in_out_err ['-Ilib', '-rbundler/setup', '-rmathn/complex', '-e', 'a=Complex(0,1)**4;!a'], "", [], [], '[ruby-core:44170]'
+    assert_in_out_err ['-Ilib', '-rbundler/setup', '-rmathn/complex', '-e', 'a=Complex(0,1)**5;!a'], "", [], [], '[ruby-core:44170]'
   end
 
   def test_quo
     stderr = $VERBOSE ? ["lib/mathn.rb is deprecated"] : []
-    assert_in_out_err ['-Ilib', '-r', 'mathn'], <<-EOS, %w(OK), stderr, '[ruby-core:41575]'
+    assert_in_out_err ['-Ilib', '-rbundler/setup', '-rmathn'], <<-EOS, %w(OK), stderr, '[ruby-core:41575]'
       1.quo(2); puts :OK
     EOS
   end
