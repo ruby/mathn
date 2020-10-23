@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
 
   spec.files         = Dir.chdir(File.expand_path('..', __FILE__)) do
     `git ls-files -z`.split("\x0").reject do |f|
-      f.match(%r{\A(test|spec|features)/})
+      f.match(%r{\A(?:test|spec|features)/|\A\.(?:git|travis)})
     end
   end
   spec.extensions    = ["ext/mathn/complex/extconf.rb", "ext/mathn/rational/extconf.rb"]
