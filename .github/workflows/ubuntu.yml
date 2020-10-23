@@ -23,7 +23,7 @@ jobs:
     - name: Package
       id: package
       run: |
-        rake build
+        SOURCE_DATE_EPOCH=`git log -1 --format=%ct` rake build
         set pkg/*.gem && echo "::set-output name=gem::${1#*/}"
       if: "matrix.ruby == '2.7'"
     - name: Upload package
