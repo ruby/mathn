@@ -1,4 +1,4 @@
-# frozen_string_literal: false
+# frozen_string_literal: true
 
 ##
 # = mathn
@@ -8,10 +8,12 @@
 #
 # Without mathn:
 #
+#   using Math::Nat
 #   3 / 2 => 1 # Integer
 #
 # With mathn:
 #
+#   using Math::Nat
 #   3 / 2 => 3/2 # Rational
 #
 # mathn keeps value in exact terms.
@@ -22,6 +24,7 @@
 #
 # With mathn:
 #
+#   using Math::Nat
 #   20 / 9 * 3 * 14 / 7 * 3 / 2 # => 20
 #
 #
@@ -30,132 +33,146 @@
 # == Copyright
 #
 # Author: Keiju ISHITSUKA (SHL Japan Inc.)
-#--
-# class Numeric follows to make this documentation findable in a reasonable
-# location
-
-warn('lib/mathn.rb is deprecated') if $VERBOSE
-
-class Numeric; end
 
 require "cmath"
 
-unless defined?(Math.exp!)
-  Object.instance_eval{remove_const :Math}
-  Math = CMath # :nodoc:
-end
-
-##
-# When mathn is required, Integer's division is enhanced to
-# return more precise values from mathematical expressions.
-#
-#   2/3*3  # => 0
-#   require 'mathn'
-#   2/3*3  # => 2
-#
-#   (2**72) / ((2**70) * 3)  # => 4/3
-
-class Integer
-  remove_method :/
-
-  ##
-  # +/+ defines the Rational division for Integer.
-  #
-  #   (2**72) / ((2**70) * 3)  # => 4/3
-
-  alias / quo
-end
-
-##
-# When mathn is required, the Math module changes as follows:
-#
-# Standard Math module behaviour:
-#   Math.sqrt(4/9)     # => 0.0
-#   Math.sqrt(4.0/9.0) # => 0.666666666666667
-#   Math.sqrt(- 4/9)   # => Errno::EDOM: Numerical argument out of domain - sqrt
-#
-# After require 'mathn', this is changed to:
-#
-#   require 'mathn'
-#   Math.sqrt(4/9)      # => 2/3
-#   Math.sqrt(4.0/9.0)  # => 0.666666666666667
-#   Math.sqrt(- 4/9)    # => Complex(0, 2/3)
-
-module Math
-  remove_method(:sqrt)
-
-  ##
-  # Computes the square root of +a+.  It makes use of Complex and
-  # Rational to have no rounding errors if possible.
-  #
-  #   Math.sqrt(4/9)      # => 2/3
-  #   Math.sqrt(- 4/9)    # => Complex(0, 2/3)
-  #   Math.sqrt(4.0/9.0)  # => 0.666666666666667
-
-  def sqrt(a)
-    if a.kind_of?(Complex)
-      sqrt!(a)
-    elsif a.respond_to?(:nan?) and a.nan?
-      a
-    elsif a >= 0
-      rsqrt(a)
-    else
-      Complex(0,rsqrt(-a))
-    end
+module Math::Nat
+  refine ::Numeric do
+    alias canonicalize itself
   end
 
-  ##
-  # Compute square root of a non negative number. This method is
-  # internally used by +Math.sqrt+.
-
-  def rsqrt(a) # :nodoc:
-    if a.kind_of?(Float)
-      sqrt!(a)
-    elsif a.kind_of?(Rational)
-      rsqrt(a.numerator)/rsqrt(a.denominator)
-    else
-      src = a
-      max = 2 ** 32
-      byte_a = [src & 0xffffffff]
-      # ruby's bug
-      while (src >= max) and (src >>= 32)
-        byte_a.unshift src & 0xffffffff
-      end
-
-      answer = 0
-      main = 0
-      side = 0
-      for elm in byte_a
-        main = (main << 32) + elm
-        side <<= 16
-        if answer != 0
-          if main * 4  < side * side
-            applo = main.div(side)
-          else
-            applo = ((sqrt!(side * side + 4 * main) - side)/2.0).to_i + 1
-          end
-        else
-          applo = sqrt!(main).to_i + 1
-        end
-
-        while (x = (side + applo) * applo) > main
-          applo -= 1
-        end
-        main -= x
-        answer = (answer << 16) + applo
-        side += applo * 2
-      end
-      if main == 0
-        answer
+  refine ::Complex do
+    def canonicalize
+      if imag.zero?
+        real.canonicalize
       else
-        sqrt!(a)
+        self
       end
     end
   end
 
-  class << self
-    remove_method(:sqrt)
+  refine ::Rational do
+    def canonicalize
+      if denominator == 1
+        numerator.canonicalize
+      else
+        self
+      end
+    end
   end
-  module_function :sqrt
-  module_function :rsqrt
+
+  using self # for canonicalize methods
+
+  def +(other) super.canonicalize end
+  def -(other) super.canonicalize end
+  def *(other) super.canonicalize end
+  def /(other) super.canonicalize end
+  def quo(other) super.canonicalize end
+  def **(other) super.canonicalize end
+
+  # Transplant per methods.
+  canon = public_instance_methods(false).map do |n, h|
+    [n, instance_method(n)]
+  end
+  for klass in [::Integer, ::Rational, ::Complex]
+    refine klass do
+      canon.each {|n, m| define_method(n, m)}
+    end
+  end
+
+  ##
+  # Enhance Integer's division to return more precise values from
+  # mathematical expressions.
+  refine ::Integer do
+
+    ##
+    # +/+ defines the Rational division for Integer.
+    #
+    #   require 'mathn'
+    #   2/3*3                   # => 0
+    #   (2**72) / ((2**70) * 3) # => 1
+    #
+    #   using Math::Nat
+    #   2/3*3                   # => 2
+    #   (2**72) / ((2**70) * 3) # => 4/3
+    alias / quo
+  end
+
+  math = refine ::Math do
+    module_function
+
+    ##
+    # Computes the square root of +a+.  It makes use of Complex and
+    # Rational to have no rounding errors if possible.
+    #
+    # Standard Math module behaviour:
+    #   Math.sqrt(4/9)     # => 0.0
+    #   Math.sqrt(4.0/9.0) # => 0.6666666666666666
+    #   Math.sqrt(- 4/9)   # => Errno::EDOM: Numerical argument out of domain - sqrt
+    #
+    # When using 'Math::Nat', this is changed to:
+    #
+    #   require 'mathn'
+    #   using Math::Nat
+    #   Math.sqrt(4/9)      # => 2/3
+    #   Math.sqrt(4.0/9.0)  # => 0.666666666666666
+    #   Math.sqrt(- 4/9)    # => Complex(0, 2/3)
+
+    def sqrt(a)
+      return super unless a.respond_to?(:negative?)
+      return a if a.respond_to?(:nan?) and a.nan?
+      negative = a.negative?
+
+      # Compute square root of a non negative number.
+      case a
+      when Float
+        a = super(a.abs)
+      when Rational
+        a = sqrt(a.numerator.abs).quo sqrt(a.denominator.abs)
+      else
+        rt = Integer.sqrt(a = a.abs)
+        a = rt * rt == a ? rt : super(a)
+      end
+      negative ? Complex(0, a) : a
+    end
+
+    ##
+    # Computes the cubic root of +a+.  It makes use of Complex and
+    # Rational to have no rounding errors if possible.
+    #
+    # Standard Math module behaviour:
+    #   Math.cbrt(8/27)         # => 0.0
+    #   Math.cbrt(8.0/27.0)     # => 0.666666666666666
+    #   Math.cbrt(- 8/27)       # => -1.0
+    #
+    # When using 'Math::Nat', this is changed to:
+    #
+    #   require 'mathn'
+    #   using Math::Nat
+    #   Math.cbrt(8/27)         # => (2/3)
+    #   Math.cbrt(8.0/27.0)     # => 0.666666666666666
+    #   Math.cbrt(-8/27)        # => (-2/3)
+
+    def cbrt(a)
+      case a
+      when Integer
+        rt = super
+        rt ** 3 == a ? Integer(rt) : rt
+      when Rational
+        cbrt(a.numerator).quo cbrt(a.denominator)
+      when Complex
+        a ** (1/3r)
+      else
+        super
+      end
+    end
+  end
+
+  # Transplant module functions.
+  refine ::Math.singleton_class do
+    math.private_instance_methods(false).each do |m|
+      next unless math.respond_to?(m)
+      public define_method(m, Math.instance_method(m))
+    end
+  end
 end
