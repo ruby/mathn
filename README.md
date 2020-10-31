@@ -30,20 +30,12 @@ With mathn:
 20 / 9 * 3 * 14 / 7 * 3 / 2 # => 20
 ```
 
-When you require 'mathn', the libraries for Prime, CMath, Matrix and Vector are also loaded.
+## Global Behavioral changes
 
-## Deprecation
-
-Requiring `mathn` causes changes to the behavior (and even the types) of
-operations on classes like Integer and it applies to the entire process,
-not just the file or gem which includes `mathn`. Therefore, we recommend
-that instead of requiring `mathn`, you instead explicitly specify rational
-values as desired, for example:
-
-```ruby
-3r / 2 => 3/2 # Rational
-20r / 9 * 3 * 14 / 7 * 3 / 2 # => 20
-```
+While older version of 'mathn', just by required, caused changes to
+the behavior (and even the types) of operations on classes like
+Integer newer `mathn` introduces the refinements `Math::Nat`, and you
+have to enable it.
 
 Before ruby 2.5, `mathn` was part of the ruby standard library. It was
 was [deprecated in ruby 2.2.0](https://github.com/ruby/ruby/blob/v2_2_0/NEWS#stdlib-compatibility-issues-excluding-feature-bug-fixes),
@@ -71,6 +63,7 @@ Or install it yourself as:
 
 ```ruby
 require 'mathn'
+using Math::Nat
 ```
 
 ## Development
