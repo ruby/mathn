@@ -20,3 +20,15 @@ jobs:
       run: bundle install
     - name: Run test
       run: bundle exec rake
+    - name: Package
+      id: package
+      run: |
+        SOURCE_DATE_EPOCH=`git log -1 --format=%ct` rake build
+        set pkg/*.gem && echo "::set-output name=gem::${1#*/}"
+      if: "matrix.ruby == '2.7'"
+    - name: Upload package
+      uses: actions/upload-artifact@v2
+      with:
+        path: pkg/*
+        name: ${{ steps.package.outputs.gem }}
+      if: "steps.package.outputs.gem != ''"
