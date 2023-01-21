@@ -20,7 +20,7 @@ jobs:
       id: package
       run: |
         SOURCE_DATE_EPOCH=`git log -1 --format=%ct` rake build
-        set pkg/*.gem && echo "::set-output name=gem::${1#*/}"
+        set pkg/*.gem && echo "gem=${1#*/}" >> $GITHUB_OUTPUT
     - name: Upload package
       uses: actions/upload-artifact@v3
       with:
