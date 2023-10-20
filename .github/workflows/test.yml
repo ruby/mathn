@@ -3,17 +3,10 @@ name: macos
 on: [push, pull_request]
 
 jobs:
-  ruby-versions:
-    uses: ruby/actions/.github/workflows/ruby_versions.yml@master
-    with:
-      engine: cruby
-      min_version: 2.5
-
-  test:
-    needs: ruby-versions
+  build:
     strategy:
       matrix:
-        ruby: ${{ fromJson(needs.ruby-versions.outputs.versions) }}
+        ruby: [ '2.7', '2.6', '2.5' ]
         os: [ ubuntu-latest, macos-latest, windows-latest ]
     runs-on: ${{ matrix.os }}
     steps:
