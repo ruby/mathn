@@ -23,8 +23,4 @@ Gem::Specification.new do |spec|
   spec.add_dependency "cmath"
   spec.add_dependency "matrix"
   spec.add_dependency "prime"
-
-  spec.add_development_dependency "bundler"
-  spec.add_development_dependency "rake"
-  spec.add_development_dependency "rake-compiler"
 end
