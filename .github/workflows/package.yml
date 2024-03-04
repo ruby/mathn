@@ -3,12 +3,25 @@ name: package
 on: [push, pull_request]
 
 jobs:
+  ruby-versions:
+    uses: ruby/actions/.github/workflows/ruby_versions.yml@master
+    with:
+      engine: cruby
+      min_version: 2.5
+
   build:
-    runs-on: ubuntu-latest
+    needs: ruby-versions
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        ruby: [ '2.7' ]
+        ruby: [ '${{ needs.ruby-versions.outputs.latest }}' ]
+        os: [ ubuntu-latest, macos-latest, windows-latest ]
     steps:
+    - name: git config
+      run: |
+        git config --global core.autocrlf false
+        git config --global core.eol lf
+        git config --global advice.detachedHead 0
     - uses: actions/checkout@v4
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
@@ -19,11 +32,13 @@ jobs:
     - name: Package
       id: package
       run: |
-        SOURCE_DATE_EPOCH=`git log -1 --format=%ct` rake build
-        set pkg/*.gem && echo "gem=${1#*/}" >> $GITHUB_OUTPUT
+        rake build
+        echo "pkg=${GITHUB_REPOSITORY#*/}-${RUNNING_OS%-*}" >> $GITHUB_OUTPUT
+      env:
+        RUNNING_OS: ${{matrix.os}}
+      shell: bash
     - name: Upload package
       uses: actions/upload-artifact@v4
       with:
         path: pkg/*
-        name: ${{ steps.package.outputs.gem }}
-      if: "steps.package.outputs.gem != ''"
+        name: ${{steps.package.outputs.pkg}}
