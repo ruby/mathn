@@ -1,7 +1,4 @@
 # frozen_string_literal: false
-#--
-# $Release Version: 0.5 $
-# $Revision: 1.1.1.1.4.1 $
 
 ##
 # = mathn
@@ -28,8 +25,7 @@
 #   20 / 9 * 3 * 14 / 7 * 3 / 2 # => 20
 #
 #
-# When you require 'mathn', the libraries for Prime, CMath, Matrix and Vector
-# are also loaded.
+# When you require 'mathn', the libraries for CMath is also loaded.
 #
 # == Copyright
 #
@@ -42,12 +38,7 @@ warn('lib/mathn.rb is deprecated') if $VERBOSE
 
 class Numeric; end
 
-require "cmath.rb"
-require "matrix.rb"
-require "prime.rb"
-
-require "mathn/rational"
-require "mathn/complex"
+require "cmath"
 
 unless defined?(Math.exp!)
   Object.instance_eval{remove_const :Math}

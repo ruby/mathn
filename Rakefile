@@ -14,8 +14,4 @@ end
 
 ENV['RUBYOPT'] = "-w"
 
-require 'rake/extensiontask'
-Rake::ExtensionTask.new("mathn/complex")
-Rake::ExtensionTask.new("mathn/rational")
-
-task :default => [:compile, :test]
+task :default => [:test]
