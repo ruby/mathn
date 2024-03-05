@@ -1,7 +1,9 @@
 # coding: utf-8
+version = File.read(File.join(__dir__, "lib/mathn.rb"))[/^ *VERSION *= *"\K.*?(?=")/]
+
 Gem::Specification.new do |spec|
   spec.name          = "mathn"
-  spec.version       = "0.1.0"
+  spec.version       = version
   spec.authors          = ["Keiju ISHITSUKA"]
   spec.email            = ["keiju@ishitsuka.com"]
 
@@ -10,9 +12,11 @@ Gem::Specification.new do |spec|
   spec.homepage      = "https://github.com/ruby/mathn"
   spec.license          = "BSD-2-Clause"
 
-  spec.files         = Dir.chdir(File.expand_path('..', __FILE__)) do
+  gemspec = File.basename(__FILE__)
+  spec.files = Dir.chdir(__dir__) do
     `git ls-files -z`.split("\x0").reject do |f|
-      f.match(%r{\A(?:test|spec|features)/|\A\.(?:git|travis)})
+      f == gemspec or
+        f.match(%r{\A(?:bin|test|spec|features|rakelib)/|\A(?:Gem|Rake)file|\.(?:git|travis)})
     end
   end
   spec.bindir        = "exe"
