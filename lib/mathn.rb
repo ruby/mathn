@@ -37,6 +37,9 @@
 require "cmath"
 
 module Math::Nat
+  # The version string
+  VERSION = "0.2.0"
+
   refine ::Numeric do
     alias canonicalize itself
   end
