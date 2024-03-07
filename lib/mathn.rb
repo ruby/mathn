@@ -35,6 +35,8 @@
 # Author: Keiju ISHITSUKA (SHL Japan Inc.)
 
 require "cmath"
+require_relative "mathn/complex"
+require_relative "mathn/rational"
 
 module Math::Nat
   # The version string
@@ -42,26 +44,6 @@ module Math::Nat
 
   refine ::Numeric do
     alias canonicalize itself
-  end
-
-  refine ::Complex do
-    def canonicalize
-      if imag.zero?
-        real.canonicalize
-      else
-        self
-      end
-    end
-  end
-
-  refine ::Rational do
-    def canonicalize
-      if denominator == 1
-        numerator.canonicalize
-      else
-        self
-      end
-    end
   end
 
   using self # for canonicalize methods
