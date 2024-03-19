@@ -3,7 +3,7 @@ Gem::Specification.new do |spec|
   spec.name          = "mathn"
   spec.version       = "0.1.0"
   spec.authors          = ["Keiju ISHITSUKA"]
-  spec.email            = [nil]
+  spec.email            = ["keiju@ishitsuka.com"]
 
   spec.summary          = "Deprecated library that extends math operations."
   spec.description      = "Deprecated library that extends math operations."
