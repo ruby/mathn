@@ -8,12 +8,12 @@
 #
 # Without mathn:
 #
-#   using Math::Nat
+#   using Math::N
 #   3 / 2 => 1 # Integer
 #
 # With mathn:
 #
-#   using Math::Nat
+#   using Math::N
 #   3 / 2 => 3/2 # Rational
 #
 # mathn keeps value in exact terms.
@@ -24,7 +24,7 @@
 #
 # With mathn:
 #
-#   using Math::Nat
+#   using Math::N
 #   20 / 9 * 3 * 14 / 7 * 3 / 2 # => 20
 #
 #
@@ -38,7 +38,7 @@ require "cmath"
 require_relative "mathn/complex"
 require_relative "mathn/rational"
 
-module Math::Nat
+module Math::N
   # The version string
   VERSION = "0.2.0"
 
@@ -77,7 +77,7 @@ module Math::Nat
     #   2/3*3                   # => 0
     #   (2**72) / ((2**70) * 3) # => 1
     #
-    #   using Math::Nat
+    #   using Math::N
     #   2/3*3                   # => 2
     #   (2**72) / ((2**70) * 3) # => 4/3
     alias / quo
@@ -95,10 +95,10 @@ module Math::Nat
     #   Math.sqrt(4.0/9.0) # => 0.6666666666666666
     #   Math.sqrt(- 4/9)   # => Errno::EDOM: Numerical argument out of domain - sqrt
     #
-    # When using 'Math::Nat', this is changed to:
+    # When using 'Math::N', this is changed to:
     #
     #   require 'mathn'
-    #   using Math::Nat
+    #   using Math::N
     #   Math.sqrt(4/9)      # => 2/3
     #   Math.sqrt(4.0/9.0)  # => 0.666666666666666
     #   Math.sqrt(- 4/9)    # => Complex(0, 2/3)
@@ -130,10 +130,10 @@ module Math::Nat
     #   Math.cbrt(8.0/27.0)     # => 0.666666666666666
     #   Math.cbrt(- 8/27)       # => -1.0
     #
-    # When using 'Math::Nat', this is changed to:
+    # When using 'Math::N', this is changed to:
     #
     #   require 'mathn'
-    #   using Math::Nat
+    #   using Math::N
     #   Math.cbrt(8/27)         # => (2/3)
     #   Math.cbrt(8.0/27.0)     # => 0.666666666666666
     #   Math.cbrt(-8/27)        # => (-2/3)

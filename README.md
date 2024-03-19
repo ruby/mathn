@@ -34,7 +34,7 @@ With mathn:
 
 While older version of 'mathn', just by required, caused changes to
 the behavior (and even the types) of operations on classes like
-Integer newer `mathn` introduces the refinements `Math::Nat`, and you
+Integer newer `mathn` introduces the refinements `Math::N`, and you
 have to enable it.
 
 Before ruby 2.5, `mathn` was part of the ruby standard library. It was
@@ -63,7 +63,7 @@ Or install it yourself as:
 
 ```ruby
 require 'mathn'
-using Math::Nat
+using Math::N
 ```
 
 ## Development

@@ -36,7 +36,7 @@ module TestMathn
   end
 
   class WithMathn < Test::Unit::TestCase
-    using Math::Nat
+    using Math::N
 
     def test_plus
       assert_kind_of(Integer, (1/2r)+(1/2r))

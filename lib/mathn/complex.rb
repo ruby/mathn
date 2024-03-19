@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # mathn/complex
-module Math::Nat
+module Math::N
   refine ::Complex do
     def canonicalize
       if imag.zero?
