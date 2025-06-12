@@ -1,14 +1,13 @@
 #!/usr/bin/env ruby
 
 require "bundler/setup"
+require "irb"
 require "mathn"
 
-# You can add fixtures and/or initialization code here to make experimenting
-# with your gem easier. You can also use a different console, if you like.
-
-# (If you use this, don't forget to add pry to your Gemfile!)
-# require "pry"
-# Pry.start
-
-require "irb"
-IRB.start(__FILE__)
+STDOUT.sync = true
+ap_path = __FILE__
+$0 = File::basename(ap_path, ".rb")
+IRB.setup(ap_path)
+irb = IRB::Irb.new
+irb.context.workspace.evaluate("using Math::N")
+irb.run(IRB.conf)
