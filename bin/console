@@ -5,9 +5,7 @@ require "irb"
 require "mathn"
 
 STDOUT.sync = true
-ap_path = __FILE__
-$0 = File::basename(ap_path, ".rb")
-IRB.setup(ap_path)
+IRB.setup(IRB.conf[:AP_NAME] = $0 = "mathn::console")
 irb = IRB::Irb.new
 irb.context.workspace.evaluate("using Math::N")
 irb.run(IRB.conf)
