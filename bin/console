@@ -1,6 +1,10 @@
 #!/usr/bin/env ruby
+# frozen-string-literal: true
 
+lock = File.expand_path("../Gemfile.lock", __dir__)
+File.unlink(lock) rescue nil
 require "bundler/setup"
+File.unlink(lock) rescue nil
 require "irb"
 require "mathn"
 
