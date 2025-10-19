@@ -46,17 +46,22 @@ module Math::N
   VERSION = "0.2.0"
 
   refine ::Numeric do
+    ##
+    # Returns the canonicalized result.
+    def canonicalize; itself; end if false # for RDoc
     alias canonicalize itself
   end
 
   using self # for canonicalize methods
 
+  # :stopdoc:
   def +(other) super.canonicalize end
   def -(other) super.canonicalize end
   def *(other) super.canonicalize end
   def /(other) super.canonicalize end
   def quo(other) super.canonicalize end
   def **(other) super.canonicalize end
+  # :startdoc:
 
   # Transplant per methods.
   canon = public_instance_methods(false).map do |n, h|
