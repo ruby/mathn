@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
+require "cmath"
+require_relative "mathn/complex"
+require_relative "mathn/rational"
+
 ##
 # = mathn
 #
@@ -33,10 +37,6 @@
 # == Copyright
 #
 # Author: Keiju ISHITSUKA (SHL Japan Inc.)
-
-require "cmath"
-require_relative "mathn/complex"
-require_relative "mathn/rational"
 
 module Math::N
   # The version string
