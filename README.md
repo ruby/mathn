@@ -42,7 +42,7 @@ Integer, newer `mathn` introduces the refinements `Math::N`, and you
 have to enable it.
 
 Before ruby 2.5, `mathn` was part of the ruby standard library. It was
-was [deprecated in ruby 2.2.0](https://github.com/ruby/ruby/blob/v2_2_0/NEWS#stdlib-compatibility-issues-excluding-feature-bug-fixes),
+[deprecated in ruby 2.2.0](https://github.com/ruby/ruby/blob/v2_2_0/NEWS#stdlib-compatibility-issues-excluding-feature-bug-fixes),
 and [removed from ruby 2.5.0](https://github.com/ruby/ruby/blob/ruby_2_5/NEWS#stdlib-compatibility-issues-excluding-feature-bug-fixes).
 In order to use the library with a current version of ruby,
 you must install it as a gem.
