@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+# The built-in module for mathematical functions
+module Math end if false # for RDoc
+
 require "cmath"
 require_relative "mathn/complex"
 require_relative "mathn/rational"
@@ -65,11 +68,9 @@ module Math::N
     end
   end
 
-  ##
-  # Enhance Integer's division to return more precise values from
+  # Integer's division is enhanced to return more precise values from
   # mathematical expressions.
-  refine ::Integer do
-
+  class ::Integer
     ##
     # +/+ defines the Rational division for Integer.
     #
@@ -80,6 +81,11 @@ module Math::N
     #   using Math::N
     #   2/3*3                   # => 2
     #   (2**72) / ((2**70) * 3) # => 4/3
+    def quo(other) super.canonicalize end
+    alias / quo
+  end if false # for RDoc
+
+  refine ::Integer do
     alias / quo
   end
 
