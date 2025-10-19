@@ -93,15 +93,15 @@ module Math::N
     module_function
 
     ##
-    # Computes the square root of +a+.  It makes use of Complex and
-    # Rational to have no rounding errors if possible.
+    # Computes the square root of +a+.  It makes use of +Complex+ and
+    # +Rational+ to have no rounding errors if possible.
     #
     # Standard Math module behaviour:
     #   Math.sqrt(4/9)     # => 0.0
     #   Math.sqrt(4.0/9.0) # => 0.6666666666666666
     #   Math.sqrt(- 4/9)   # => Errno::EDOM: Numerical argument out of domain - sqrt
     #
-    # When using 'Math::N', this is changed to:
+    # When using +Math::N+, this is changed to:
     #
     #   require 'mathn'
     #   using Math::N
@@ -128,15 +128,15 @@ module Math::N
     end
 
     ##
-    # Computes the cubic root of +a+.  It makes use of Complex and
-    # Rational to have no rounding errors if possible.
+    # Computes the cubic root of +a+.  It makes use of +Complex+ and
+    # +Rational+ to have no rounding errors if possible.
     #
     # Standard Math module behaviour:
     #   Math.cbrt(8/27)         # => 0.0
     #   Math.cbrt(8.0/27.0)     # => 0.666666666666666
     #   Math.cbrt(- 8/27)       # => -1.0
     #
-    # When using 'Math::N', this is changed to:
+    # When using +Math::N+, this is changed to:
     #
     #   require 'mathn'
     #   using Math::N
