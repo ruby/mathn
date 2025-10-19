@@ -59,11 +59,15 @@ gem 'mathn'
 
 And then execute:
 
-    $ bundle
+```console
+$ bundle
+```
 
 Or install it yourself as:
 
-    $ gem install mathn
+```console
+$ gem install mathn
+```
 
 ## Usage
 
