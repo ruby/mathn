@@ -104,7 +104,7 @@ module Math::N
     # Standard Math module behaviour:
     #   Math.sqrt(4/9)     # => 0.0
     #   Math.sqrt(4.0/9.0) # => 0.6666666666666666
-    #   Math.sqrt(- 4/9)   # => Errno::EDOM: Numerical argument out of domain - sqrt
+    #   Math.sqrt(-4/9)    # => Errno::EDOM: Numerical argument out of domain - sqrt
     #
     # When using +Math::N+, this is changed to:
     #
@@ -112,7 +112,7 @@ module Math::N
     #   using Math::N
     #   Math.sqrt(4/9)      # => 2/3
     #   Math.sqrt(4.0/9.0)  # => 0.666666666666666
-    #   Math.sqrt(- 4/9)    # => Complex(0, 2/3)
+    #   Math.sqrt(-4/9)     # => Complex(0, 2/3)
 
     def sqrt(a)
       return super unless a.respond_to?(:negative?)
@@ -139,7 +139,7 @@ module Math::N
     # Standard Math module behaviour:
     #   Math.cbrt(8/27)         # => 0.0
     #   Math.cbrt(8.0/27.0)     # => 0.666666666666666
-    #   Math.cbrt(- 8/27)       # => -1.0
+    #   Math.cbrt(-8/27)        # => -1.0
     #
     # When using +Math::N+, this is changed to:
     #
