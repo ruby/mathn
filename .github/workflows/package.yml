@@ -45,7 +45,7 @@ jobs:
         RUNNING_OS: ${{matrix.os}}
       shell: bash
     - name: Upload package
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         path: pkg/*
         name: ${{steps.package.outputs.pkg}}
